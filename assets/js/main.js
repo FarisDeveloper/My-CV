@@ -28,24 +28,50 @@
   const mobileNavToggleBtn = document.querySelector('.mobile-nav-toggle');
 
   function mobileNavToogle() {
-    document.querySelector('body').classList.toggle('mobile-nav-active');
-    mobileNavToggleBtn.classList.toggle('bi-list');
-    mobileNavToggleBtn.classList.toggle('bi-x');
+    document.body.classList.toggle('mobile-nav-active');
+    if (mobileNavToggleBtn) {
+      const icon = mobileNavToggleBtn.querySelector('i') || mobileNavToggleBtn;
+      if (document.body.classList.contains('mobile-nav-active')) {
+        icon.classList.remove('bi-list');
+        icon.classList.add('bi-x');
+      } else {
+        icon.classList.remove('bi-x');
+        icon.classList.add('bi-list');
+      }
+    }
   }
+
   if (mobileNavToggleBtn) {
-    mobileNavToggleBtn.addEventListener('click', mobileNavToogle);
+    mobileNavToggleBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      mobileNavToogle();
+    });
   }
 
   /**
-   * Hide mobile nav on same-page/hash links
+   * Hide mobile nav on same-page/hash links and outside clicks
    */
   document.querySelectorAll('#navmenu a').forEach(navmenu => {
     navmenu.addEventListener('click', () => {
-      if (document.querySelector('.mobile-nav-active')) {
+      if (document.body.classList.contains('mobile-nav-active')) {
         mobileNavToogle();
       }
     });
+  });
 
+  const navmenuOverlay = document.querySelector('#navmenu');
+  if (navmenuOverlay) {
+    navmenuOverlay.addEventListener('click', function(e) {
+      if (e.target === navmenuOverlay && document.body.classList.contains('mobile-nav-active')) {
+        mobileNavToogle();
+      }
+    });
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && document.body.classList.contains('mobile-nav-active')) {
+      mobileNavToogle();
+    }
   });
 
   /**
