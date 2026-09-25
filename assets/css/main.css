@@ -184,21 +184,6 @@ h6 {
   background: color-mix(in srgb, var(--accent-color), transparent 15%);
 }
 
-@media (max-width: 1200px) {
-  .header .logo {
-    order: 1;
-  }
-
-  .header .btn-getstarted {
-    order: 2;
-    margin: 0 15px 0 0;
-    padding: 6px 20px;
-  }
-
-  .header .navmenu {
-    order: 3;
-  }
-}
 
 .scrolled .header::before {
   content: "";
